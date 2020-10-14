@@ -6,8 +6,8 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v2';
 export type Task = {
   id: number,
   title: string,
+  description: string,
   done: boolean,
-  description: string, 
 };
 
 class TaskService {
@@ -32,29 +32,26 @@ class TaskService {
    */
   create(title: string, description: string) {
     return axios
-      .post<{}, { id: number }>('/tasks', { title: title, description: description })
+      .post<{}, { id: number }>('/tasks', {
+        title: title,
+        description: description,
+      })
       .then((response) => response.data.id);
-      //todo
   }
 
-    /**
-   * Update task with given id.
+  /**
+   * Update given task.
    */
-  update(id: number, title: string, description: string) {
-    return axios
-      .put<{}, { id: number }>('/tasks/' + id, { title: title, description: description })
-      .then((response) => response.data.id);
+  update(task: Task) {
+    return axios.put<Task, void>('/tasks', task).then((response) => response.data);
   }
 
-    /**
+  /**
    * Delete task with given id.
    */
   delete(id: number) {
-    return axios
-      .delete<void>('/tasks/' + id)
-      .then((response) => response.data);
+    return axios.delete<void>('/tasks/' + id).then((response) => response.data);
   }
-
 }
 
 const taskService = new TaskService();
