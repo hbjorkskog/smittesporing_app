@@ -22,16 +22,16 @@ router.get('/tasks/:id', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-// Example request body: { title: "Ny oppgave" }
+// Example request body: { title: "Ny oppgave", description: "Ny beskrivelse" }
 // Example response body: { id: 4 }
 router.post('/tasks', (request, response) => {
   const data = request.body;
   if (
-    data && 
-    typeof data.title == 'string' && 
+    data &&
+    typeof data.title == 'string' &&
     data.title.length != 0 &&
     typeof data.description == 'string'
-    )
+  )
     taskService
       .create(data.title, data.description)
       .then((id) => response.send({ id: id }))
@@ -39,7 +39,7 @@ router.post('/tasks', (request, response) => {
   else response.status(400).send('Missing task title');
 });
 
-// Example request body: { id: 4, title: "Ny oppgave", done: true, description: "Beskrivelse" }
+// Example request body: { id: 4, title: "Ny oppgave", description: "Ny beskrivelse", done: true }
 router.put('/tasks', (request, response) => {
   const data = request.body;
   if (
@@ -47,11 +47,11 @@ router.put('/tasks', (request, response) => {
     typeof data.id == 'number' &&
     typeof data.title == 'string' &&
     data.title.length != 0 &&
-    typeof data.done == 'boolean' &&
-    typeof data.description == 'string'
+    typeof data.description == 'string' &&
+    typeof data.done == 'boolean'
   )
     taskService
-      .update({ id: data.id, title: data.title, done: data.done, description: data.description })
+      .update({ id: data.id, title: data.title, description: data.description, done: data.done })
       .then(() => response.send())
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing task properties');

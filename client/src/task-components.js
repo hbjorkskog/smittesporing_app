@@ -44,7 +44,7 @@ export class TaskList extends Component {
  * Renders a specific task.
  */
 export class TaskDetails extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false, description: '' };
+  task: Task = { id: 0, title: '', description: '', done: false };
 
   render() {
     return (
@@ -85,9 +85,8 @@ export class TaskDetails extends Component<{ match: { params: { id: number } } }
 /**
  * Renders form to edit a specific task.
  */
-
 export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false, description: '' };
+  task: Task = { id: 0, title: '', description: '', done: false };
 
   render() {
     return (
@@ -110,12 +109,11 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
               <Form.Label>Description:</Form.Label>
             </Column>
             <Column>
-              <Form.Textarea 
-                value={this.task.description} 
-                onChange={(event) => {
-                  this.task.description = event.currentTarget.value
-                }} 
-                rows={10} />
+              <Form.TextArea
+                value={this.task.description}
+                onChange={(event) => (this.task.description = event.currentTarget.value)}
+                rows={10}
+              />
             </Column>
           </Row>
           <Row>
@@ -130,22 +128,10 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
         </Card>
         <Row>
           <Column>
-            <Button.Success onClick={() => {
-              taskService
-                .update(this.task.id, this.task.title, this.task.description)
-                .then(() => history.push('/tasks/' + this.props.match.params.id), 
-                Alert.success('Task successfully updated')) // Added an alert for success
-                .catch((error: Error) => Alert.danger('Error updating task: ' + error.message));
-              }}>Save</Button.Success>
+            <Button.Success onClick={this.save}>Save</Button.Success>
           </Column>
           <Column right>
-            <Button.Danger onClick={() => {
-              taskService
-                .delete(this.task.id)
-                .then(() => history.push('/tasks/'), 
-                Alert.success('Task successfully deleted')) //Added an alert to let the user know everything went well
-                .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message));
-            }}>Delete</Button.Danger>
+            <Button.Danger onClick={this.delete}>Delete</Button.Danger>
           </Column>
         </Row>
       </>
@@ -157,6 +143,20 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
       .get(this.props.match.params.id)
       .then((task) => (this.task = task))
       .catch((error: Error) => Alert.danger('Error getting task: ' + error.message));
+  }
+
+  save() {
+    taskService
+      .update(this.task)
+      .then(() => history.push('/tasks/' + this.task.id))
+      .catch((error: Error) => Alert.danger('Error saving task: ' + error.message));
+  }
+
+  delete() {
+    taskService
+      .delete(this.task.id)
+      .then(() => history.push('/tasks'))
+      .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message));
   }
 }
 
@@ -188,10 +188,11 @@ export class TaskNew extends Component {
               <Form.Label>Description:</Form.Label>
             </Column>
             <Column>
-              <Form.Textarea 
-                type="text"
-                value={this.description} 
-                onChange={(event) => {((this.description = event.currentTarget.value))}} rows={10} />
+              <Form.TextArea
+                value={this.description}
+                onChange={(event) => (this.description = event.currentTarget.value)}
+                rows={10}
+              />
             </Column>
           </Row>
         </Card>
@@ -199,7 +200,7 @@ export class TaskNew extends Component {
           onClick={() => {
             taskService
               .create(this.title, this.description)
-              .then((id) => history.push('/tasks/' + id), Alert.success('Task successfully added')) // Added a success alert
+              .then((id) => history.push('/tasks/' + id))
               .catch((error: Error) => Alert.danger('Error creating task: ' + error.message));
           }}
         >
