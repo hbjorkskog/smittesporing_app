@@ -1,8 +1,8 @@
 {
-  "name": "todo-server",
+  "name": "smittesporing-server",
   "version": "1.0.0",
-  "description": "A simple Todo REST server",
-  "license": "MIT",
+  "description": "A simple covid 19 contact tracing application",
+
   "scripts": {
     "start": "nodemon src/server.js --exec \"babel-node --require ./src/config\"",
     "test": "jest --setupFiles ./test/config"

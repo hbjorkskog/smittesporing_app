@@ -1,8 +1,7 @@
 {
-  "name": "todo-client",
+  "name": "smittesporing-client",
   "version": "1.0.0",
-  "description": "A simple Todo web client",
-  "license": "MIT",
+  "description": "A simple covid 19 contact tracing application",
   "scripts": {
     "start": "webpack --mode development --watch",
     "test": "jest --setupFiles ./test/setup"
