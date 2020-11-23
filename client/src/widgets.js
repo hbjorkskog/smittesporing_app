@@ -309,7 +309,7 @@ class FormSelect extends Component<{
 export class Form {
   static Label = FormLabel;
   static Input = FormInput;
-  static Textarea = FormTextarea;
+  static TextArea = FormTextarea;
   static Checkbox = FormCheckbox;
   static Select = FormSelect;
 }
