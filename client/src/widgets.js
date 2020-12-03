@@ -88,6 +88,22 @@ export class Card extends Component<{ title?: React.Node, children?: React.Node 
 }
 
 /**
+ * Renders an information card using Bootstrap classes.
+ */
+export class HeaderCard extends Component<{ title?: React.Node, children?: React.Node }> {
+  render() {
+    return (
+      <div className="header-card">
+        <div className="header-card-body">
+          <h1 className="header-card-title">{this.props.title}</h1>
+          <div className="header-card-text">{this.props.children}</div>
+        </div>
+      </div>
+    );
+  }
+}
+
+/**
  * Renders a row using Bootstrap classes.
  */
 export class Row extends Component<{ children?: React.Node }> {
